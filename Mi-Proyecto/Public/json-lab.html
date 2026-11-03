@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio JSON - Actividad 25</title>
+  <link rel="stylesheet" href="/styless.css">
+  <style>
+    .json-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: monospace;
+    }
+    h1, h2 { font-family: system-ui, sans-serif; color: #2563eb; }
+    pre {
+      background: #1f2937;
+      color: #10b981;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    .btn-group { margin: 1rem 0; display: flex; gap: 1rem; }
+    button {
+      padding: 0.6rem 1.2rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #1e40af; }
+    .back-link { display: block; text-align: center; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+
+  <div class="json-container">
+    <h1>Laboratorio JSON</h1>
+    <p>Esta página demuestra la conversión de Objetos JS a JSON y viceversa.</p>
+
+    <div class="btn-group">
+      <button id="btn-probar">Ejecutar Pruebas</button>
+      <button id="btn-limpiar">Limpiar Consola</button>
+    </div>
+
+    <h2>1. Objeto Original (JS)</h2>
+    <pre id="res-original">Esperando...</pre>
+
+    <h2>2. Serializado (JSON String)</h2>
+    <pre id="res-json">Esperando...</pre>
+
+    <h2>3. Deserializado (Parseado a JS)</h2>
+    <pre id="res-parse">Esperando...</pre>
+
+    <a href="/" class="back-link">← Volver al inicio</a>
+  </div>
+
+  <script>
+    // ==========================================
+    // ACTIVIDAD 25 - LÓGICA DE JSON
+    // ==========================================
+
+    const alumno = {
+      nombre: "Ana",
+      edad: 20,
+      matricula: "A001",
+      materias: ["Cálculo", "Programación"],
+      saludar: function() { return "Hola"; }, // Función (se perderá en JSON)
+      indefinido: undefined,                  // undefined (se perderá en JSON)
+      fecha: new Date()                       // Fecha (se convertirá a string)
+    };
+
+    document.getElementById('btn-probar').addEventListener('click', () => {
+      
+      // 1. Mostrar el objeto original en pantalla
+      const originalMostrar = {
+        nombre: alumno.nombre,
+        edad: alumno.edad,
+        matricula: alumno.matricula,
+        materias: alumno.materias,
+        saludar: "[Función]",
+        indefinido: "[undefined]",
+        fecha: alumno.fecha.toString()
+      };
+      document.getElementById('res-original').textContent = JSON.stringify(originalMostrar, null, 2);
+
+      // 2. Serializar a JSON (String)
+      // Nota: La función y el undefined desaparecen. La fecha se convierte a ISO string.
+      const jsonString = JSON.stringify(alumno, null, 2);
+      document.getElementById('res-json').textContent = jsonString;
+
+      // 3. Deserializar de vuelta a Objeto JS
+      const alumnoParseado = JSON.parse(jsonString);
+      document.getElementById('res-parse').textContent = JSON.stringify(alumnoParseado, null, 2);
+
+      // 4. Pruebas en consola
+      console.log("--- PRUEBAS DE CONSOLA (F12) ---");
+      console.log("Objeto original:", alumno);
+      console.log("JSON String:", jsonString);
+      console.log("¿Es el mismo objeto?", alumno === alumnoParseado); // false
+      
+      // 5. Guardar en localStorage
+      localStorage.setItem("alumno_guardado", jsonString);
+      console.log("Guardado en localStorage:", localStorage.getItem("alumno_guardado"));
+
+      // 6. Mini-Reto (Arreglo de 3 alumnos)
+      const alumnosArray = [
+        { nombre: "Luis", edad: 22, matricula: "A002" },
+        { nombre: "Sofía", edad: 21, matricula: "A003" },
+        { nombre: "Pedro", edad: 23, matricula: "A004" }
+      ];
+      
+      const arrayJson = JSON.stringify(alumnosArray, null, 2);
+      console.log("--- MINI RETO (Arreglo de alumnos) ---");
+      console.log("Array en JSON:", arrayJson);
+      
+      const arrayParseado = JSON.parse(arrayJson);
+      arrayParseado.forEach(a => console.log("Alumno parseado:", a.nombre));
+      
+    });
+
+    document.getElementById('btn-limpiar').addEventListener('click', () => {
+      document.getElementById('res-original').textContent = "Esperando...";
+      document.getElementById('res-json').textContent = "Esperando...";
+      document.getElementById('res-parse').textContent = "Esperando...";
+      console.clear();
+    });
+  </script>
+</body>
+</html>

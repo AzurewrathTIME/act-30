@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de alumno</title>
+  <link rel="stylesheet" href="/styless.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .form-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      color: #2563eb;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: #6b7280;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h1>Registrar alumno</h1>
+
+    <form action="/registrar" method="POST">
+      
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ej. Ana López" required>
+
+      <label for="edad">Edad:</label>
+      <input type="number" id="edad" name="edad" min="0" max="120" required>
+
+      <label for="matricula">Matrícula:</label>
+      <input type="text" id="matricula" name="matricula" placeholder="Ej. A001" required>
+
+      <input type="hidden" name="origen" value="web">
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <a href="/" class="back-link">← Volver al inicio</a>
+  </div>
+
+</body>
+</html>
